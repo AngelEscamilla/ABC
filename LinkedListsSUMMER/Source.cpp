@@ -13,7 +13,6 @@ struct Promo
 	char Nombre[20];
 	char Categoria[20];
 	char Motivo[30];
-	char Alarma[_MAX_PATH];
 	short Descuento;
 };
 
@@ -30,16 +29,12 @@ short MENU;
 void Menu();
 void Agregar();
 void Modificar();
-void Borrar();
+void Eliminar();
 void Buscar();
 void Lista();
 
 int main()
 {
-	printf("Summer C++ Linked Lists Practice\n");
-
-	_getch();
-
 	Menu();
 
 	_getch();
@@ -50,7 +45,7 @@ void Menu()
 {
 	do
 	{
-		printf("ADD - 1\nDELETE - 2\nLIST - 3\nSEARCH - 4\nMODIFY - 5\n");
+		printf("Agregar - 1\nEliminar - 2\nMostrar Lista - 3\nBuscar Elemento - 4\nMofidicar Elemento - 5\nSalir - 6\n");
 
 		cin >> MENU;
 
@@ -62,7 +57,7 @@ void Menu()
 			break;
 		case 2:
 			system("cls");
-			Borrar();
+			Eliminar();
 			break;
 		case 3:
 			system("cls");
@@ -78,7 +73,7 @@ void Menu()
 			break;
 		default:
 			system("cls");
-			printf("NO");
+			printf("Adios");
 			Salir = 1;
 			break;
 		};
@@ -137,7 +132,8 @@ void Modificar()
 			Auxiliar = Auxiliar->Siguiente;
 		};
 		if (Auxiliar == NULL) {
-			printf("Elemento no encontrado");
+			system("cls");
+			printf("Elemento no encontrado\n");
 		}
 		else {
 			printf("Encontrado\n%s\n%s\n%s\n%d\n\n", Auxiliar->Nombre, Auxiliar->Categoria, Auxiliar->Motivo, Auxiliar->Descuento);
@@ -149,6 +145,7 @@ void Modificar()
 			cin >> Auxiliar->Motivo;
 			printf("Nuevo Descuento\n");
 			cin >> Auxiliar->Descuento;
+			printf("Cambios Realizados\n");
 		};
 	}
 	else {
@@ -173,7 +170,8 @@ void Buscar()
 			Auxiliar = Auxiliar->Siguiente;
 		};
 		if (Auxiliar == NULL) {
-			printf("Elemento no encontrado");
+			system("cls");
+			printf("Elemento no encontrado\n");
 		}
 		else {
 			printf("Encontrado\n%s\n%s\n%s\n%d\n\n", Auxiliar->Nombre, Auxiliar->Categoria, Auxiliar->Motivo, Auxiliar->Descuento);
@@ -188,12 +186,12 @@ void Buscar()
 	Menu();
 }
 
-void Borrar()
+void Eliminar()
 {
 	if (Inicio != NULL) {
 		Auxiliar = Inicio;
 
-		printf("Que vas a borrar?\n");
+		printf("Que vas a Eliminar?\n");
 
 		cin >> NombreBusqueda;
 
@@ -201,7 +199,8 @@ void Borrar()
 			Auxiliar = Auxiliar->Siguiente;
 		};
 		if (Auxiliar == NULL) {
-			printf("Elemento no encontrado");
+			system("cls");
+			printf("Elemento no encontrado\n");
 		}
 		else {
 			if (Auxiliar == Inicio && Inicio == Final)
@@ -231,6 +230,7 @@ void Borrar()
 					}
 				}
 			}
+			printf("Elemento \"%s\" eliminado\n", NombreBusqueda);
 		}
 	}
 	else {
