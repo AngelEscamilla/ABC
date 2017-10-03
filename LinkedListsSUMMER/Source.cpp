@@ -1,4 +1,4 @@
-#include <string.h>
+#include <string>
 #include <conio.h>
 #include <stdio.h>
 #include <iostream>
@@ -12,13 +12,15 @@ struct Promo
 	Promo*Siguiente;
 	char Nombre[20];
 	char Categoria[20];
-	char Motivo[30];
-	short Descuento;
+	char Descripcion[30];
+	short Precio;
 };
 
 Promo*Inicio;
 Promo*Final;
 Promo*Auxiliar;
+
+string X;
 
 bool Salir = 0;
 
@@ -32,9 +34,13 @@ void Modificar();
 void Eliminar();
 void Buscar();
 void Lista();
+void Guardar();
+void Cargar();
 
 int main()
 {
+	Cargar();
+	cout << X << endl;
 	Menu();
 
 	_getch();
@@ -73,6 +79,7 @@ void Menu()
 			break;
 		default:
 			system("cls");
+			Guardar();
 			printf("Adios");
 			Salir = 1;
 			break;
@@ -92,10 +99,10 @@ void Agregar()
 		cin >> Inicio->Nombre;
 		printf("Categoria\n");
 		cin >> Inicio->Categoria;
-		printf("Motivo\n");
-		cin >> Inicio->Motivo;
-		printf("Descuento\n");
-		cin >> Inicio->Descuento;
+		printf("Descripcion\n");
+		cin >> Inicio->Descripcion;
+		printf("Precio\n");
+		cin >> Inicio->Precio;
 		Final = Inicio;
 	}
 	else {
@@ -107,10 +114,10 @@ void Agregar()
 		cin >> Auxiliar->Nombre;
 		printf("Categoria\n");
 		cin >> Auxiliar->Categoria;
-		printf("Motivo\n");
-		cin >> Auxiliar->Motivo;
-		printf("Descuento\n");
-		cin >> Auxiliar->Descuento;
+		printf("Descripcion\n");
+		cin >> Auxiliar->Descripcion;
+		printf("Precio\n");
+		cin >> Auxiliar->Precio;
 		Final = Auxiliar;
 	};
 
@@ -136,15 +143,15 @@ void Modificar()
 			printf("Elemento no encontrado\n");
 		}
 		else {
-			printf("Encontrado\n%s\n%s\n%s\n%d\n\n", Auxiliar->Nombre, Auxiliar->Categoria, Auxiliar->Motivo, Auxiliar->Descuento);
+			printf("Encontrado\n%s\n%s\n%s\n%d\n\n", Auxiliar->Nombre, Auxiliar->Categoria, Auxiliar->Descripcion, Auxiliar->Precio);
 			printf("Nuevo Nombre\n");
 			cin >> Auxiliar->Nombre;
 			printf("Nueva Categoria\n");
 			cin >> Auxiliar->Categoria;
-			printf("Nuevo Motivo\n");
-			cin >> Auxiliar->Motivo;
-			printf("Nuevo Descuento\n");
-			cin >> Auxiliar->Descuento;
+			printf("Nuevo Descripcion\n");
+			cin >> Auxiliar->Descripcion;
+			printf("Nuevo Precio\n");
+			cin >> Auxiliar->Precio;
 			printf("Cambios Realizados\n");
 		};
 	}
@@ -174,7 +181,7 @@ void Buscar()
 			printf("Elemento no encontrado\n");
 		}
 		else {
-			printf("Encontrado\n%s\n%s\n%s\n%d\n\n", Auxiliar->Nombre, Auxiliar->Categoria, Auxiliar->Motivo, Auxiliar->Descuento);
+			printf("Encontrado\n%s\n%s\n%s\n%d\n\n", Auxiliar->Nombre, Auxiliar->Categoria, Auxiliar->Descripcion, Auxiliar->Precio);
 		};
 	}
 	else {
@@ -249,7 +256,7 @@ void Lista()
 		Auxiliar = Inicio;
 
 		while (Auxiliar != NULL) {
-			printf("%s\n%s\n%s\n%d\n\n", Auxiliar->Nombre, Auxiliar->Categoria, Auxiliar->Motivo, Auxiliar->Descuento);
+			printf("%s\n%s\n%s\n%d\n\n", Auxiliar->Nombre, Auxiliar->Categoria, Auxiliar->Descripcion, Auxiliar->Precio);
 			Auxiliar = Auxiliar->Siguiente;
 		};
 		if (Auxiliar == NULL) {
@@ -263,4 +270,29 @@ void Lista()
 	_getch();
 	system("cls");
 	Menu();
+};
+
+void Guardar() {
+	if (Inicio!=NULL) {
+		ofstream file("Archivo.bin", ios::binary, ios::trunc);
+		if (file.is_open()) {
+			Auxiliar = Inicio;
+			while (Auxiliar != NULL) {
+				file << Auxiliar->Nombre;
+				file << Auxiliar->Categoria;
+				file << Auxiliar->Descripcion;
+				file << Auxiliar->Precio;
+				Auxiliar = Auxiliar->Siguiente;
+			}file.close();
+		}
+		else { printf("No se pudo abrir el archivo\n"); }
+	}
+};
+
+void Cargar() {
+	ifstream file("Archivo.bin", ios::binary);
+		if (file.is_open()) {
+			getline(file, X);
+			file.close();
+		}
 };
